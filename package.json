@@ -4,6 +4,7 @@
   "description": "Services marketplace",
   "main": "app.js",
   "scripts": {
+    "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,6 +18,9 @@
   },
   "homepage": "https://github.com/HazimAnas/cenfy#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "async": "^2.6.1",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.3",
+    "passport": "^0.4.0"
   }
 }
