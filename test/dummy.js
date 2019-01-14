@@ -14,7 +14,7 @@ var users = []
 
 function userCreate(userName, password, email, displayName, cb) {
   userdetail = {userName:userName , password: password , email: email , displayName: displayName }
-
+  console.log("cb = " + cb)
   var user = new User(userdetail);
 
   user.save(function (err) {
