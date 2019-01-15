@@ -1,10 +1,15 @@
+import bodyParser from "body-parser";
 import express from "express";
+
 const app = express();
 const port = 3000;
 const appName = "cenfy";
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Attach all route
-import usersRouter from "./routes/users";
+import { usersRouter } from "./routes/users";
 
 app.use("/users", usersRouter);
 

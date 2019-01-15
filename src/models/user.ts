@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import * as mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
@@ -26,5 +26,4 @@ UserSchema.virtual("url")
 });
 
 // Export model
-const User = mongoose.model("User", UserSchema);
-export default User;
+export const User = mongoose.model("User", UserSchema);

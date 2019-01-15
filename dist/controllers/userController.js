@@ -7,30 +7,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const user_1 = __importDefault(require("../models/user"));
+const user_1 = require("../models/user");
 // Display list of all User.
-exports.user_list = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    /*User.find({}, 'email displayName')
-      .exec().then( function (listUsers) {
-          res.json(listUsers);
-      }).catch(next);*/
+exports.getUsers = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const listUsers = user_1.default.find({}, "email displayName").exec();
-        res.json(yield listUsers);
+        const usersList = user_1.User.find({}, "email displayName").exec();
+        res.json(yield usersList);
     }
     catch (err) {
         return next(err);
     }
 });
+// Create new User.
+exports.createUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+    res.send("Create user");
+});
+// Update new User.
+exports.updateUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+    res.send("Update user");
+});
+// Delete new User.
+exports.deleteUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+    res.send("Delete user");
+});
 // Display detail page for a specific User.
-exports.user_detail = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.getUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const listUsers = user_1.default.find({}, "email displayName").exec();
-        res.json(yield listUsers);
+        const usersList = user_1.User.find({}, "email displayName").exec();
+        res.json(yield usersList);
     }
     catch (err) {
         return next(err);
