@@ -1,12 +1,13 @@
 import * as mongoose from "mongoose";
+import { IUser } from "./userInterface";
 
-const Schema = mongoose.Schema;
+export interface IUserModel extends IUser, mongoose.Document { }
 
 /**
-Schema for User
-@class
+*  Schema for User
+*  @class
 */
-const UserSchema = new Schema (
+const UserSchema = new  mongoose.Schema (
   {
     userName: { type: String, required: true, max: 50 },
     password: { type: String, required: true, max: 50 },
@@ -17,13 +18,14 @@ const UserSchema = new Schema (
   }
 );
 
-/** Returns absolute url to specific user
-@function
+/**
+*  Returns absolute url to specific user
+*  @function
 */
 UserSchema.virtual("url")
-.get(function() {
+.get( function(this: any ) {
   return "/user/" + this._id;
 });
 
 // Export model
-export const User = mongoose.model("User", UserSchema);
+export const User = mongoose.model<IUserModel>("User", UserSchema);

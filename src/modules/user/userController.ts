@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { User } from "../models/user";
+import { User } from "./userModel";
 
 // Display list of all User.
 export let getUsers = async (req: Request, res: Response, next: NextFunction) => {

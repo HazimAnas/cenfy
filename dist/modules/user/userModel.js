@@ -9,8 +9,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = __importStar(require("mongoose"));
 /**
-Schema for User
-@class
+*  Schema for User
+*  @class
 */
 const UserSchema = new mongoose.Schema({
     userName: { type: String, required: true, max: 50 },
@@ -20,14 +20,14 @@ const UserSchema = new mongoose.Schema({
     address: { type: String, max: 150 },
     phoneNumber: { type: String, max: 20 },
 });
-/** Returns absolute url to specific user
-@function
-
-UserSchema.virtual("url")
-.get( () => {
-  return "/user/" + this._id;
-});
+/**
+*  Returns absolute url to specific user
+*  @function
 */
+UserSchema.virtual("url")
+    .get(function () {
+    return "/user/" + this._id;
+});
 // Export model
 exports.User = mongoose.model("User", UserSchema);
-//# sourceMappingURL=user.js.map
+//# sourceMappingURL=userModel.js.map

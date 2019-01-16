@@ -1,24 +1,21 @@
 import bodyParser from "body-parser";
 import express from "express";
+import * as conf from "./utils/conf";
 
 const app = express();
-const port = 3000;
-const appName = "cenfy";
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Attach all route
-import { usersRouter } from "./routes/users";
+// Initialize db connection
+import "./utils/mongodb";
 
-app.use("/users", usersRouter);
+// Attach all module routers
+import * as routers from "./routers";
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.use("/users", routers.userRouter);
 
-// Set up mongoose connection
-import mongoose from "mongoose";
-const mongoDB = "mongodb://127.0.0.1:27017/" + appName;
-mongoose.connect(mongoDB);
-mongoose.Promise = global.Promise;
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
+// Start server
+app.listen(conf.port, () =>
+  console.log(`Example app listening on port ${conf.port}! with ENV ${app.settings.env}!`)
+);
