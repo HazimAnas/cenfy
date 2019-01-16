@@ -10,35 +10,53 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const userModel_1 = require("./userModel");
 // Display list of all User.
-exports.getUsers = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.getUsers = (_req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const usersList = userModel_1.User.find({}, "email displayName").exec();
-        res.json(yield usersList);
+        const usersList = yield userModel_1.User.find({}, "email displayName").exec();
+        responseHandling(usersList, res);
     }
     catch (err) {
         return next(err);
     }
 });
-// Create new User.
+// Create a new User.
 exports.createUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     res.send("Create user");
 });
-// Update new User.
+// Update a User.
 exports.updateUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     res.send("Update user");
 });
-// Delete new User.
+// Delete a User.
 exports.deleteUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    res.send("Delete user");
+    try {
+        const user = yield userModel_1.User.findByIdAndDelete(req.params.id).exec();
+        responseHandling(user, res);
+    }
+    catch (err) {
+        next(err);
+    }
 });
 // Display detail page for a specific User.
 exports.getUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const usersList = userModel_1.User.find({}, "email displayName").exec();
-        res.json(yield usersList);
+        const user = yield userModel_1.User.findById(req.params.id, "email displayName").exec();
+        responseHandling(user, res);
     }
     catch (err) {
-        return next(err);
+        next(err);
     }
 });
+function responseHandling(data, res) {
+    JSON.stringify(data);
+    if (data != null) {
+        if (data.password) {
+            delete data.password;
+        }
+        res.json({ status: 200, message: "Successful", data });
+    }
+    else {
+        res.status(500).json({ status: 500, message: "Unsuccessful", data });
+    }
+}
 //# sourceMappingURL=userController.js.map

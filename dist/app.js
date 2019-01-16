@@ -21,6 +21,12 @@ require("./utils/mongodb");
 // Attach all module routers
 const routers = __importStar(require("./routers"));
 app.use("/users", routers.userRouter);
+app.use(function (error, req, res, next) {
+    // Will **not** get called. You'll get Express' default error
+    // handler, which returns `error.toString()` in the error body
+    console.log("will not print");
+    res.json({ message: error.message });
+});
 // Start server
 app.listen(conf.port, () => console.log(`Example app listening on port ${conf.port}! with ENV ${app.settings.env}!`));
 //# sourceMappingURL=app.js.map
