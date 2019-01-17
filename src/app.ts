@@ -15,8 +15,9 @@ import "./utils/mongodb";
 import * as routers from "./routers";
 
 app.use("/users", routers.userRouter);
+app.use("/sp", routers.serviceProviderRouter);
 
-app.use(function(error: Error , req: Request, res: Response, next: NextFunction) {
+app.use((error: Error , req: Request, res: Response, next: NextFunction) => {
   // Will **not** get called. You'll get Express' default error
   // handler, which returns `error.toString()` in the error body
   console.log("will not print");

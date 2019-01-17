@@ -40,13 +40,15 @@ export let getUser = async (req: Request, res: Response, next: NextFunction) => 
       next(err);
     }
 };
-//wip
+// wip
 function responseHandling(data: any, res: Response) {
-  JSON.stringify(data);
   if (data != null) {
     if (data.password) {
+      console.log("Delete password " + data.password);
+      data = data.toObject();
       delete data.password;
     }
+    JSON.stringify(data);
     res.json({status: 200, message: "Successful", data});
   } else {
     res.status(500).json({status: 500, message: "Unsuccessful", data});

@@ -21,7 +21,8 @@ require("./utils/mongodb");
 // Attach all module routers
 const routers = __importStar(require("./routers"));
 app.use("/users", routers.userRouter);
-app.use(function (error, req, res, next) {
+app.use("/sp", routers.serviceProviderRouter);
+app.use((error, req, res, next) => {
     // Will **not** get called. You'll get Express' default error
     // handler, which returns `error.toString()` in the error body
     console.log("will not print");

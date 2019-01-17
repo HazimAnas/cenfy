@@ -1,5 +1,6 @@
 var async = require('async');
-var User = require('../src/models/user');
+var User = require('../dist/modules/user/userModel');
+var ServiceProvider = require('../dist/modules/service-provider/serviceProviderModel');
 
 const app_name = "cenfy"
 //Set up mongoose connection
@@ -10,12 +11,13 @@ mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-var users = []
+var users = [];
+var sps = [];
 
 function userCreate(userName, password, email, displayName, cb) {
   userdetail = {userName:userName , password: password , email: email , displayName: displayName }
   console.log("cb = " + cb)
-  var user = new User(userdetail);
+  var user = new User.User(userdetail);
 
   user.save(function (err) {
     if (err) {
@@ -50,9 +52,48 @@ function createUsers(cb) {
         cb);
 }
 
+function serviceProviderCreate(userName, password, email, displayName, cb) {
+  serviceProviderdetail = {userName:userName , password: password , email: email , displayName: displayName }
+  console.log("cb = " + cb)
+  var serviceProvider = new ServiceProvider.ServiceProvider(serviceProviderdetail);
+
+  serviceProvider.save(function (err) {
+    if (err) {
+      cb(err, null)
+      return
+    }
+    console.log('New SP : ' + serviceProvider);
+    sps.push(serviceProvider)
+    cb(null, serviceProvider)
+  }  );
+}
+
+function createServiceProviders(cb) {
+    async.parallel([
+        function(callback) {
+          serviceProviderCreate('SPPatrick', 'Rothfuss', 'SPPatrick@Rothfuss', 'SPPatrick Rothfuss', callback);
+        },
+        function(callback) {
+          serviceProviderCreate('SPBen', 'Bova', 'SPBen@Bova', 'SPBen Bova', callback);
+        },
+        function(callback) {
+          serviceProviderCreate('SPIsaac', 'Asimov', 'SPIsaac@Asimov', 'SPIsaac Asimov', callback);
+        },
+        function(callback) {
+          serviceProviderCreate('SPBob', 'Billings', 'SPBob@Billings', 'SPBob Billings', callback);
+        },
+        function(callback) {
+          serviceProviderCreate('SPJim', 'Jones', 'SPJim@Jones', 'SPJim Jones', callback);
+        },
+        ],
+        // optional callback
+        cb);
+}
+
 
 async.series([
-    createUsers
+    createUsers,
+    createServiceProviders
 ],
 // Optional callback
 function(err, results) {
@@ -61,6 +102,7 @@ function(err, results) {
     }
     else {
         console.log('Users: '+users);
+        console.log('Users: '+sps);
 
     }
     // All done, disconnect from database

@@ -8,40 +8,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const userModel_1 = require("./userModel");
+const serviceProviderModel_1 = require("./serviceProviderModel");
 // Display list of all User.
-exports.getUsers = (_req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.getServiceProviders = (_req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const usersList = yield userModel_1.User.find({}, "email displayName").exec();
-        responseHandling(usersList, res);
+        const serviceProviderList = yield serviceProviderModel_1.ServiceProvider.find({}, "email displayName").exec();
+        responseHandling(serviceProviderList, res);
     }
     catch (err) {
         return next(err);
     }
 });
 // Create a new User.
-exports.createUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.createServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     res.send("Create user");
 });
 // Update a User.
-exports.updateUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.updateServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     res.send("Update user");
 });
 // Delete a User.
-exports.deleteUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.deleteServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const user = yield userModel_1.User.findByIdAndDelete(req.params.id).exec();
-        responseHandling(user, res);
+        const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findByIdAndDelete(req.params.id).exec();
+        responseHandling(serviceProvider, res);
     }
     catch (err) {
         next(err);
     }
 });
 // Display detail page for a specific User.
-exports.getUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.getServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const user = yield userModel_1.User.findById(req.params.id, "email displayName").exec();
-        responseHandling(user, res);
+        const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findById(req.params.id, "email displayName").exec();
+        responseHandling(serviceProvider, res);
     }
     catch (err) {
         next(err);
@@ -51,8 +51,7 @@ exports.getUser = (req, res, next) => __awaiter(this, void 0, void 0, function* 
 function responseHandling(data, res) {
     if (data != null) {
         if (data.password) {
-            console.log("Delete password " + data.password);
-            data = data.toObject();
+            console.log("Delete password");
             delete data.password;
         }
         JSON.stringify(data);
@@ -62,4 +61,4 @@ function responseHandling(data, res) {
         res.status(500).json({ status: 500, message: "Unsuccessful", data });
     }
 }
-//# sourceMappingURL=userController.js.map
+//# sourceMappingURL=serviceProviderController.js.map
