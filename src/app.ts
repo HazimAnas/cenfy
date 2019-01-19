@@ -18,9 +18,7 @@ app.use("/users", routers.userRouter);
 app.use("/sp", routers.serviceProviderRouter);
 
 app.use((error: Error , req: Request, res: Response, next: NextFunction) => {
-  // Will **not** get called. You'll get Express' default error
-  // handler, which returns `error.toString()` in the error body
-  console.log("will not print");
+  // top level error handler
   res.json({ message: error.message });
 });
 
@@ -28,3 +26,5 @@ app.use((error: Error , req: Request, res: Response, next: NextFunction) => {
 app.listen(conf.port, () =>
   console.log(`Example app listening on port ${conf.port}! with ENV ${app.settings.env}!`)
 );
+
+module.exports = app;

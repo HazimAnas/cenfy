@@ -16,7 +16,7 @@ exports.getServiceProviders = (_req, res, next) => __awaiter(this, void 0, void 
         responseHandling(serviceProviderList, res);
     }
     catch (err) {
-        return next(err);
+        next(err);
     }
 });
 // Create a new User.
@@ -51,7 +51,8 @@ exports.getServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0,
 function responseHandling(data, res) {
     if (data != null) {
         if (data.password) {
-            console.log("Delete password");
+            console.log("Delete password " + data.password);
+            data = data.toObject();
             delete data.password;
         }
         JSON.stringify(data);

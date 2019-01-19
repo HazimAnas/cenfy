@@ -3,6 +3,9 @@
     "extends": [
         "tslint:recommended"
     ],
+    "parserOptions": {
+        "ecmaVersion": 10
+      },
     "jsRules": {},
     "rules": {
         "trailing-comma": [ false ],

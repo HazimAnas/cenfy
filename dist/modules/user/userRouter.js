@@ -8,10 +8,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const userRouter = express_1.Router();
-exports.userRouter = userRouter;
 // Require controller modules.
 const userController = __importStar(require("./userController"));
+const userRouter = express_1.Router();
+exports.userRouter = userRouter;
 // GET list of all user.
 userRouter.get("/", userController.getUsers);
 // Create new User.

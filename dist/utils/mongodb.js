@@ -14,7 +14,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const conf = __importStar(require("./conf"));
 const mongoDB = "mongodb://127.0.0.1:27017/" + conf.appName;
-mongoose_1.default.connect(mongoDB, { useNewUrlParser: true });
+mongoose_1.default.connect(mongoDB, { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true });
 mongoose_1.default.Promise = global.Promise;
 const db = mongoose_1.default.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));

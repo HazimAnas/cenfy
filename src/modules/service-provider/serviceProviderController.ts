@@ -7,7 +7,7 @@ export let getServiceProviders = async (_req: Request, res: Response, next: Next
       const serviceProviderList = await ServiceProvider.find({}, "email displayName").exec();
       responseHandling(serviceProviderList, res);
     } catch (err) {
-      return next(err);
+      next(err);
     }
 };
 

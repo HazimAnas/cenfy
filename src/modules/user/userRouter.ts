@@ -1,9 +1,8 @@
 import { Router } from "express";
-
-const userRouter = Router();
-
 // Require controller modules.
 import * as userController from "./userController";
+
+const userRouter = Router();
 
 // GET list of all user.
 userRouter.get("/", userController.getUsers);
