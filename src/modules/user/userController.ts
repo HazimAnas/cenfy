@@ -23,7 +23,6 @@ export let createUser = async (req: Request, res: Response, next: NextFunction) 
       } catch (err) {
         next(err);
       }
-
   };
 
   // Update a User.

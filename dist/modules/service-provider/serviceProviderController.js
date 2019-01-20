@@ -7,7 +7,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const bcrypt = __importStar(require("bcrypt"));
 const serviceProviderModel_1 = require("./serviceProviderModel");
 // Display list of all User.
 exports.getServiceProviders = (_req, res, next) => __awaiter(this, void 0, void 0, function* () {
@@ -21,11 +29,26 @@ exports.getServiceProviders = (_req, res, next) => __awaiter(this, void 0, void 
 });
 // Create a new User.
 exports.createServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    res.send("Create user");
+    try {
+        const hashedPassword = yield bcrypt.hash(req.body.password, 10);
+        req.body.password = hashedPassword;
+        const serviceProvider = new serviceProviderModel_1.ServiceProvider(req.body);
+        const createdserviceProvider = yield serviceProvider.save();
+        responseHandling(createdserviceProvider, res);
+    }
+    catch (err) {
+        next(err);
+    }
 });
 // Update a User.
 exports.updateServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-    res.send("Update user");
+    try {
+        const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findByIdAndUpdate(req.params.id, req.body).exec();
+        responseHandling(serviceProvider, res);
+    }
+    catch (err) {
+        next(err);
+    }
 });
 // Delete a User.
 exports.deleteServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
@@ -40,7 +63,7 @@ exports.deleteServiceProvider = (req, res, next) => __awaiter(this, void 0, void
 // Display detail page for a specific User.
 exports.getServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findById(req.params.id, "email displayName").exec();
+        const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findById(req.params.id).exec();
         responseHandling(serviceProvider, res);
     }
     catch (err) {

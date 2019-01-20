@@ -1,3 +1,4 @@
+import * as bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
 import { ServiceProvider } from "./serviceProviderModel";
 
@@ -13,12 +14,25 @@ export let getServiceProviders = async (_req: Request, res: Response, next: Next
 
 // Create a new User.
 export let createServiceProvider = async (req: Request, res: Response, next: NextFunction) => {
-    res.send("Create user");
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        req.body.password = hashedPassword;
+        const serviceProvider = new ServiceProvider(req.body);
+        const createdserviceProvider = await serviceProvider.save();
+        responseHandling(createdserviceProvider, res);
+    } catch (err) {
+      next(err);
+    }
 };
 
 // Update a User.
 export let updateServiceProvider = async (req: Request, res: Response, next: NextFunction) => {
-    res.send("Update user");
+    try {
+      const serviceProvider = await ServiceProvider.findByIdAndUpdate(req.params.id, req.body).exec();
+      responseHandling(serviceProvider, res);
+    } catch (err) {
+      next(err);
+    }
 };
 
 // Delete a User.
@@ -34,7 +48,7 @@ export let deleteServiceProvider = async (req: Request, res: Response, next: Nex
 // Display detail page for a specific User.
 export let getServiceProvider = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const serviceProvider = await ServiceProvider.findById(req.params.id, "email displayName").exec();
+      const serviceProvider = await ServiceProvider.findById(req.params.id).exec();
       responseHandling(serviceProvider, res);
     } catch (err) {
       next(err);
