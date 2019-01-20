@@ -7,17 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcrypt = __importStar(require("bcrypt"));
+// import * as mongoose from "mongoose";
 const serviceProviderModel_1 = require("./serviceProviderModel");
-// Display list of all User.
+// Display list of all Service Provider.
 exports.getServiceProviders = (_req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
         const serviceProviderList = yield serviceProviderModel_1.ServiceProvider.find({}, "email displayName").exec();
@@ -27,11 +20,10 @@ exports.getServiceProviders = (_req, res, next) => __awaiter(this, void 0, void 
         next(err);
     }
 });
-// Create a new User.
+// Create a new Service Provider.
 exports.createServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const hashedPassword = yield bcrypt.hash(req.body.password, 10);
-        req.body.password = hashedPassword;
+        // req.body.user = new mongoose.Schema.Types.ObjectId(req.body.user);
         const serviceProvider = new serviceProviderModel_1.ServiceProvider(req.body);
         const createdserviceProvider = yield serviceProvider.save();
         responseHandling(createdserviceProvider, res);
@@ -40,7 +32,7 @@ exports.createServiceProvider = (req, res, next) => __awaiter(this, void 0, void
         next(err);
     }
 });
-// Update a User.
+// Update a Service Provider.
 exports.updateServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
         const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findByIdAndUpdate(req.params.id, req.body).exec();
@@ -50,7 +42,7 @@ exports.updateServiceProvider = (req, res, next) => __awaiter(this, void 0, void
         next(err);
     }
 });
-// Delete a User.
+// Delete a Service Provider.
 exports.deleteServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
         const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findByIdAndDelete(req.params.id).exec();
@@ -60,10 +52,10 @@ exports.deleteServiceProvider = (req, res, next) => __awaiter(this, void 0, void
         next(err);
     }
 });
-// Display detail page for a specific User.
+// Display detail page for a specific Service Provider.
 exports.getServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findById(req.params.id).exec();
+        const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findById(req.params.id).populate("user").exec();
         responseHandling(serviceProvider, res);
     }
     catch (err) {

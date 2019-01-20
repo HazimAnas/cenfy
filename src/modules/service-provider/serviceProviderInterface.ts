@@ -1,5 +1,10 @@
-import { IUser } from "../user/userInterface";
-
-interface IServiceProvider extends IUser {}
+interface IServiceProvider {
+  displayName: string;
+  description: string;
+  category: [{name: string}];
+  images: [{loc: string}];
+  user: string;
+  status: boolean;
+}
 
 export { IServiceProvider };

@@ -1,8 +1,8 @@
-import * as bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
+// import * as mongoose from "mongoose";
 import { ServiceProvider } from "./serviceProviderModel";
 
-// Display list of all User.
+// Display list of all Service Provider.
 export let getServiceProviders = async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const serviceProviderList = await ServiceProvider.find({}, "email displayName").exec();
@@ -12,11 +12,10 @@ export let getServiceProviders = async (_req: Request, res: Response, next: Next
     }
 };
 
-// Create a new User.
+// Create a new Service Provider.
 export let createServiceProvider = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
-        req.body.password = hashedPassword;
+        // req.body.user = new mongoose.Schema.Types.ObjectId(req.body.user);
         const serviceProvider = new ServiceProvider(req.body);
         const createdserviceProvider = await serviceProvider.save();
         responseHandling(createdserviceProvider, res);
@@ -25,7 +24,7 @@ export let createServiceProvider = async (req: Request, res: Response, next: Nex
     }
 };
 
-// Update a User.
+// Update a Service Provider.
 export let updateServiceProvider = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const serviceProvider = await ServiceProvider.findByIdAndUpdate(req.params.id, req.body).exec();
@@ -35,7 +34,7 @@ export let updateServiceProvider = async (req: Request, res: Response, next: Nex
     }
 };
 
-// Delete a User.
+// Delete a Service Provider.
 export let deleteServiceProvider = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const serviceProvider = await ServiceProvider.findByIdAndDelete(req.params.id).exec();
@@ -45,10 +44,10 @@ export let deleteServiceProvider = async (req: Request, res: Response, next: Nex
     }
 };
 
-// Display detail page for a specific User.
+// Display detail page for a specific Service Provider.
 export let getServiceProvider = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const serviceProvider = await ServiceProvider.findById(req.params.id).exec();
+      const serviceProvider = await ServiceProvider.findById(req.params.id).populate("user").exec();
       responseHandling(serviceProvider, res);
     } catch (err) {
       next(err);

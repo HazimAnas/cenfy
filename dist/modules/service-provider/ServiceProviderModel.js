@@ -13,12 +13,12 @@ const mongoose = __importStar(require("mongoose"));
 *  @class
 */
 const ServiceProviderSchema = new mongoose.Schema({
-    userName: { type: String, required: true, max: 50 },
-    password: { type: String, required: true, max: 50 },
-    email: { type: String, required: true, max: 50 },
-    displayName: { type: String, required: true, max: 50 },
-    address: { type: String, max: 150 },
-    phoneNumber: { type: String, max: 20 },
+    displayName: { type: String, maxlength: 150, required: true },
+    description: { type: String, maxlength: 300 },
+    category: [{ name: String }],
+    images: [{ loc: String }],
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    status: { type: Boolean, default: false }
 });
 /**
 *  Returns absolute url to specific user
