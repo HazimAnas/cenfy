@@ -8,6 +8,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+// import passport from "passport";
+const auth = __importStar(require("../auth/authMiddleware"));
 // Require controller modules.
 const userController = __importStar(require("./userController"));
 const userRouter = express_1.Router();
@@ -21,5 +23,5 @@ userRouter.put("/:id", userController.updateUser);
 // Delete a User.
 userRouter.delete("/:id", userController.deleteUser);
 // GET details of a specific user
-userRouter.get("/:id", userController.getUser);
+userRouter.get("/:id", auth.protectedRoute, userController.getUser);
 //# sourceMappingURL=userRouter.js.map

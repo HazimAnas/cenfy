@@ -8,7 +8,7 @@ export let getServiceProviders = async (_req: Request, res: Response, next: Next
       const serviceProviderList = await ServiceProvider.find({}, "email displayName").exec();
       responseHandling(serviceProviderList, res);
     } catch (err) {
-      next(err);
+      return next(err);
     }
 };
 
@@ -20,7 +20,7 @@ export let createServiceProvider = async (req: Request, res: Response, next: Nex
         const createdserviceProvider = await serviceProvider.save();
         responseHandling(createdserviceProvider, res);
     } catch (err) {
-      next(err);
+      return next(err);
     }
 };
 
@@ -30,7 +30,7 @@ export let updateServiceProvider = async (req: Request, res: Response, next: Nex
       const serviceProvider = await ServiceProvider.findByIdAndUpdate(req.params.id, req.body).exec();
       responseHandling(serviceProvider, res);
     } catch (err) {
-      next(err);
+      return next(err);
     }
 };
 
@@ -40,7 +40,7 @@ export let deleteServiceProvider = async (req: Request, res: Response, next: Nex
       const serviceProvider = await ServiceProvider.findByIdAndDelete(req.params.id).exec();
       responseHandling(serviceProvider, res);
     } catch (err) {
-      next(err);
+      return next(err);
     }
 };
 
@@ -50,7 +50,7 @@ export let getServiceProvider = async (req: Request, res: Response, next: NextFu
       const serviceProvider = await ServiceProvider.findById(req.params.id).populate("user").exec();
       responseHandling(serviceProvider, res);
     } catch (err) {
-      next(err);
+      return next(err);
     }
 };
 // wip

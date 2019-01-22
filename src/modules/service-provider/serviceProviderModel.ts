@@ -11,10 +11,10 @@ const ServiceProviderSchema = new  mongoose.Schema (
   {
     displayName: { type: String, maxlength: 150, required: true},
     description: { type: String, maxlength: 300 },
-    category: [{name: String}],
-    images: [{loc: String}],
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    status: { type: Boolean, default: false }
+    category: [{ name: String }],
+    images: [{ loc: String }],
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    status: { type: Boolean, default: false, required: true }
   }
 );
 

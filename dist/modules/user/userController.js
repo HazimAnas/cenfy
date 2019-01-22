@@ -24,7 +24,7 @@ exports.getUsers = (_req, res, next) => __awaiter(this, void 0, void 0, function
         responseHandling(usersList, res);
     }
     catch (err) {
-        next(err);
+        return next(err);
     }
 });
 // Create a new User.
@@ -37,7 +37,7 @@ exports.createUser = (req, res, next) => __awaiter(this, void 0, void 0, functio
         responseHandling(createdUser, res);
     }
     catch (err) {
-        next(err);
+        return next(err);
     }
 });
 // Update a User.
@@ -47,7 +47,7 @@ exports.updateUser = (req, res, next) => __awaiter(this, void 0, void 0, functio
         responseHandling(user, res);
     }
     catch (err) {
-        next(err);
+        return next(err);
     }
 });
 // Delete a User.
@@ -57,7 +57,7 @@ exports.deleteUser = (req, res, next) => __awaiter(this, void 0, void 0, functio
         responseHandling(user, res);
     }
     catch (err) {
-        next(err);
+        return next(err);
     }
 });
 // Display detail page for a specific User.
@@ -67,7 +67,7 @@ exports.getUser = (req, res, next) => __awaiter(this, void 0, void 0, function* 
         responseHandling(user, res);
     }
     catch (err) {
-        next(err);
+        return next(err);
     }
 });
 // wip

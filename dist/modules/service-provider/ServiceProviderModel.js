@@ -17,8 +17,8 @@ const ServiceProviderSchema = new mongoose.Schema({
     description: { type: String, maxlength: 300 },
     category: [{ name: String }],
     images: [{ loc: String }],
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    status: { type: Boolean, default: false }
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    status: { type: Boolean, default: false, required: true }
 });
 /**
 *  Returns absolute url to specific user

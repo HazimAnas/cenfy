@@ -1,10 +1,12 @@
 import bodyParser from "body-parser";
 import express from "express";
 import { NextFunction, Request, Response } from "express";
+import passport from "passport";
 import * as conf from "./utils/conf";
 
 const app = express();
 
+app.use(passport.initialize());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -13,7 +15,7 @@ import "./utils/mongodb";
 
 // Attach all module routers
 import * as routers from "./routers";
-
+app.use("/auth", routers.authRouter);
 app.use("/users", routers.userRouter);
 app.use("/sp", routers.serviceProviderRouter);
 

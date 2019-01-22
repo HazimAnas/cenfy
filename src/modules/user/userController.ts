@@ -8,7 +8,7 @@ export let getUsers = async (_req: Request, res: Response, next: NextFunction) =
         const usersList = await User.find({}, "email displayName").exec();
         responseHandling(usersList, res);
       } catch (err) {
-        next(err);
+        return next(err);
       }
   };
 
@@ -21,7 +21,7 @@ export let createUser = async (req: Request, res: Response, next: NextFunction) 
           const createdUser = await user.save();
           responseHandling(createdUser, res);
       } catch (err) {
-        next(err);
+        return next(err);
       }
   };
 
@@ -31,7 +31,7 @@ export let updateUser = async (req: Request, res: Response, next: NextFunction) 
         const user = await User.findByIdAndUpdate(req.params.id, req.body).exec();
         responseHandling(user, res);
       } catch (err) {
-        next(err);
+        return next(err);
       }
   };
 
@@ -41,7 +41,7 @@ export let deleteUser = async (req: Request, res: Response, next: NextFunction) 
         const user = await User.findByIdAndDelete(req.params.id).exec();
         responseHandling(user, res);
       } catch (err) {
-        next(err);
+        return next(err);
       }
   };
 
@@ -51,7 +51,7 @@ export let getUser = async (req: Request, res: Response, next: NextFunction) => 
         const user = await User.findById(req.params.id, "email displayName").exec();
         responseHandling(user, res);
       } catch (err) {
-        next(err);
+        return next(err);
       }
   };
   // wip

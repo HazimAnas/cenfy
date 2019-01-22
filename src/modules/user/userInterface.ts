@@ -5,6 +5,9 @@ interface IUser {
   displayName: string;
   address: string;
   phoneNumber: string;
+  serviceProvider: string;
+
+  isValidPassword(password: string): boolean;
 }
 
 export { IUser };

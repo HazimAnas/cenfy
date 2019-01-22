@@ -17,7 +17,7 @@ exports.getServiceProviders = (_req, res, next) => __awaiter(this, void 0, void 
         responseHandling(serviceProviderList, res);
     }
     catch (err) {
-        next(err);
+        return next(err);
     }
 });
 // Create a new Service Provider.
@@ -29,7 +29,7 @@ exports.createServiceProvider = (req, res, next) => __awaiter(this, void 0, void
         responseHandling(createdserviceProvider, res);
     }
     catch (err) {
-        next(err);
+        return next(err);
     }
 });
 // Update a Service Provider.
@@ -39,7 +39,7 @@ exports.updateServiceProvider = (req, res, next) => __awaiter(this, void 0, void
         responseHandling(serviceProvider, res);
     }
     catch (err) {
-        next(err);
+        return next(err);
     }
 });
 // Delete a Service Provider.
@@ -49,7 +49,7 @@ exports.deleteServiceProvider = (req, res, next) => __awaiter(this, void 0, void
         responseHandling(serviceProvider, res);
     }
     catch (err) {
-        next(err);
+        return next(err);
     }
 });
 // Display detail page for a specific Service Provider.
@@ -59,7 +59,7 @@ exports.getServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0,
         responseHandling(serviceProvider, res);
     }
     catch (err) {
-        next(err);
+        return next(err);
     }
 });
 // wip
