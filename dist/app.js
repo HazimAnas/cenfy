@@ -11,10 +11,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const body_parser_1 = __importDefault(require("body-parser"));
+const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
 const conf = __importStar(require("./utils/conf"));
 const app = express_1.default();
+// enable cors
+app.use(cors_1.default({ credentials: true }));
+// initialize passport
 app.use(passport_1.default.initialize());
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));

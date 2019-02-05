@@ -18,7 +18,7 @@ passport_1.default.use(new passport_jwt_1.Strategy({
     // secret we used to sign our JWT
     secretOrKey: "top_secret",
     // we expect the user to send the token as a query paramater with the name 'secret_token'
-    jwtFromRequest: passport_jwt_1.ExtractJwt.fromUrlQueryParameter("secret_token")
+    jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderWithScheme("Bearer")
 }, (token, done) => __awaiter(this, void 0, void 0, function* () {
     try {
         // Pass the user details to the next middleware
@@ -47,6 +47,7 @@ exports.protectedRoute = (req, res, next) => {
                 }
             }
             req.user = user;
+            next();
         })(req, res, next);
     }
     catch (err) {

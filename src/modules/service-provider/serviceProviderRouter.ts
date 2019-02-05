@@ -1,4 +1,5 @@
 import { Router } from "express";
+import * as auth from "../auth/authMiddleware";
 
 const serviceProviderRouter = Router();
 
@@ -12,10 +13,10 @@ serviceProviderRouter.get("/", serviceProviderController.getServiceProviders);
 serviceProviderRouter.post("/", serviceProviderController.createServiceProvider);
 
 // Update a service Provider.
-serviceProviderRouter.put("/:id", serviceProviderController.updateServiceProvider);
+serviceProviderRouter.put("/:id", auth.protectedRoute, serviceProviderController.updateServiceProvider);
 
 // Delete a service Provider.
-serviceProviderRouter.delete("/:id", serviceProviderController.deleteServiceProvider);
+serviceProviderRouter.delete("/:id", auth.protectedRoute, serviceProviderController.deleteServiceProvider);
 
 // GET details of a specific service Provider
 serviceProviderRouter.get("/:id", serviceProviderController.getServiceProvider);

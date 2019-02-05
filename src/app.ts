@@ -1,11 +1,14 @@
 import bodyParser from "body-parser";
+import cors from "cors";
 import express from "express";
 import { NextFunction, Request, Response } from "express";
 import passport from "passport";
 import * as conf from "./utils/conf";
 
 const app = express();
-
+// enable cors
+app.use(cors({credentials: true}));
+// initialize passport
 app.use(passport.initialize());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
