@@ -5,7 +5,7 @@ import { ServiceProvider } from "./serviceProviderModel";
 // Display list of all Service Provider.
 export let getServiceProviders = async (_req: Request, res: Response, next: NextFunction) => {
     try {
-      const serviceProviderList = await ServiceProvider.find({}, "email displayName").exec();
+      const serviceProviderList = await ServiceProvider.find({}, "").exec();
       responseHandling(serviceProviderList, res);
     } catch (err) {
       return next(err);

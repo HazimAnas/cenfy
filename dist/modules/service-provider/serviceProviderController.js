@@ -13,7 +13,7 @@ const serviceProviderModel_1 = require("./serviceProviderModel");
 // Display list of all Service Provider.
 exports.getServiceProviders = (_req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const serviceProviderList = yield serviceProviderModel_1.ServiceProvider.find({}, "email displayName").exec();
+        const serviceProviderList = yield serviceProviderModel_1.ServiceProvider.find({}, "").exec();
         responseHandling(serviceProviderList, res);
     }
     catch (err) {

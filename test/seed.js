@@ -52,8 +52,8 @@ function createUsers(cb) {
         cb);
 }
 
-function serviceProviderCreate(userName, password, email, displayName, cb) {
-  serviceProviderdetail = {userName:userName , password: password , email: email , displayName: displayName }
+function serviceProviderCreate(description, categories, user, displayName, cb) {
+  serviceProviderdetail = {description: description , categories: categories, user: user, displayName: displayName }
   console.log("cb = " + cb)
   var serviceProvider = new ServiceProvider.ServiceProvider(serviceProviderdetail);
 
@@ -71,19 +71,19 @@ function serviceProviderCreate(userName, password, email, displayName, cb) {
 function createServiceProviders(cb) {
     async.parallel([
         function(callback) {
-          serviceProviderCreate('SPPatrick', 'Rothfuss', 'SPPatrick@Rothfuss', 'SPPatrick Rothfuss', callback);
+          serviceProviderCreate('SPPatrick', [{name:'barber'}], users[0]._id, 'SPPatrick Rothfuss', callback);
         },
         function(callback) {
-          serviceProviderCreate('SPBen', 'Bova', 'SPBen@Bova', 'SPBen Bova', callback);
+          serviceProviderCreate('SPBen', [{name:'plumber'}], users[1]._id, 'SPBen Bova', callback);
         },
         function(callback) {
-          serviceProviderCreate('SPIsaac', 'Asimov', 'SPIsaac@Asimov', 'SPIsaac Asimov', callback);
+          serviceProviderCreate('SPIsaac', [{name:'electician'}], users[2]._id, 'SPIsaac Asimov', callback);
         },
         function(callback) {
-          serviceProviderCreate('SPBob', 'Billings', 'SPBob@Billings', 'SPBob Billings', callback);
+          serviceProviderCreate('SPBob', [{name:'plumber'}], users[3]._id, 'SPBob Billings', callback);
         },
         function(callback) {
-          serviceProviderCreate('SPJim', 'Jones', 'SPJim@Jones', 'SPJim Jones', callback);
+          serviceProviderCreate('SPJim', [{name:'mechanic'}], users[4]._id, 'SPJim Jones', callback);
         },
         ],
         // optional callback

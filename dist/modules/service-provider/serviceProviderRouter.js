@@ -8,6 +8,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const auth = __importStar(require("../auth/authMiddleware"));
 const serviceProviderRouter = express_1.Router();
 exports.serviceProviderRouter = serviceProviderRouter;
 // Require controller modules.
@@ -17,9 +18,9 @@ serviceProviderRouter.get("/", serviceProviderController.getServiceProviders);
 // Create new service Provider.
 serviceProviderRouter.post("/", serviceProviderController.createServiceProvider);
 // Update a service Provider.
-serviceProviderRouter.put("/:id", serviceProviderController.updateServiceProvider);
+serviceProviderRouter.put("/:id", auth.protectedRoute, serviceProviderController.updateServiceProvider);
 // Delete a service Provider.
-serviceProviderRouter.delete("/:id", serviceProviderController.deleteServiceProvider);
+serviceProviderRouter.delete("/:id", auth.protectedRoute, serviceProviderController.deleteServiceProvider);
 // GET details of a specific service Provider
 serviceProviderRouter.get("/:id", serviceProviderController.getServiceProvider);
 //# sourceMappingURL=serviceProviderRouter.js.map

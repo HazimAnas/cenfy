@@ -15,8 +15,8 @@ const mongoose = __importStar(require("mongoose"));
 const ServiceProviderSchema = new mongoose.Schema({
     displayName: { type: String, maxlength: 150, required: true },
     description: { type: String, maxlength: 300 },
-    category: [{ name: String }],
-    images: [{ loc: String }],
+    categories: [{ name: { type: String }, _id: false }],
+    images: [{ loc: { type: String }, _id: false }],
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     status: { type: Boolean, default: false, required: true }
 });
