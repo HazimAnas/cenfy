@@ -5,7 +5,7 @@ import { User } from "./userModel";
   // Display list of all User.
 export let getUsers = async (_req: Request, res: Response, next: NextFunction) => {
       try {
-        const usersList = await User.find({}, "email displayName").exec();
+        const usersList = await User.find({}, "email username displayName").exec();
         responseHandling(usersList, res);
       } catch (err) {
         return next(err);
@@ -48,7 +48,7 @@ export let deleteUser = async (req: Request, res: Response, next: NextFunction) 
   // Display detail page for a specific User.
 export let getUser = async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const user = await User.findById(req.params.id, "email displayName").exec();
+        const user = await User.findById(req.params.id, "email username displayName").exec();
         responseHandling(user, res);
       } catch (err) {
         return next(err);
