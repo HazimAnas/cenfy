@@ -48,7 +48,7 @@ export let deleteUser = async (req: Request, res: Response, next: NextFunction) 
   // Display detail page for a specific User.
 export let getUser = async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const user = await User.findById(req.params.id, "email username displayName").exec();
+        const user = await User.findById(req.params.id, "").exec();
         responseHandling(user, res);
       } catch (err) {
         return next(err);
