@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const userModel_1 = require("../user/userModel");
 // import * as mongoose from "mongoose";
 const serviceProviderModel_1 = require("./serviceProviderModel");
 // Display list of all Service Provider.
@@ -26,6 +27,9 @@ exports.createServiceProvider = (req, res, next) => __awaiter(this, void 0, void
         // req.body.user = new mongoose.Schema.Types.ObjectId(req.body.user);
         const serviceProvider = new serviceProviderModel_1.ServiceProvider(req.body);
         const createdserviceProvider = yield serviceProvider.save();
+        const user = yield userModel_1.User.findById(req.body.user).exec();
+        user.serviceProvider = createdserviceProvider._id;
+        yield user.save();
         responseHandling(createdserviceProvider, res);
     }
     catch (err) {
@@ -55,7 +59,7 @@ exports.deleteServiceProvider = (req, res, next) => __awaiter(this, void 0, void
 // Display detail page for a specific Service Provider.
 exports.getServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findById(req.params.id).populate("user").exec();
+        const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findById(req.params.id).exec();
         responseHandling(serviceProvider, res);
     }
     catch (err) {

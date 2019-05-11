@@ -63,7 +63,7 @@ exports.deleteUser = (req, res, next) => __awaiter(this, void 0, void 0, functio
 // Display detail page for a specific User.
 exports.getUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const user = yield userModel_1.User.findById(req.params.id, "").exec();
+        const user = yield userModel_1.User.findById(req.params.id).exec();
         responseHandling(user, res);
     }
     catch (err) {

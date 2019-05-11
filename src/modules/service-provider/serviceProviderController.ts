@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { User } from "../user/userModel";
 // import * as mongoose from "mongoose";
 import { ServiceProvider } from "./serviceProviderModel";
 
@@ -18,6 +19,9 @@ export let createServiceProvider = async (req: Request, res: Response, next: Nex
         // req.body.user = new mongoose.Schema.Types.ObjectId(req.body.user);
         const serviceProvider = new ServiceProvider(req.body);
         const createdserviceProvider = await serviceProvider.save();
+        const user = await User.findById(req.body.user).exec();
+        user!.serviceProvider = createdserviceProvider._id;
+        await user!.save();
         responseHandling(createdserviceProvider, res);
     } catch (err) {
       return next(err);
@@ -47,7 +51,7 @@ export let deleteServiceProvider = async (req: Request, res: Response, next: Nex
 // Display detail page for a specific Service Provider.
 export let getServiceProvider = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const serviceProvider = await ServiceProvider.findById(req.params.id).populate("user").exec();
+      const serviceProvider = await ServiceProvider.findById(req.params.id).exec();
       responseHandling(serviceProvider, res);
     } catch (err) {
       return next(err);
