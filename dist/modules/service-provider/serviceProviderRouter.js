@@ -16,7 +16,7 @@ const serviceProviderController = __importStar(require("./serviceProviderControl
 // GET list of all service Provider.
 serviceProviderRouter.get("/", serviceProviderController.getServiceProviders);
 // Create new service Provider.
-serviceProviderRouter.post("/", serviceProviderController.createServiceProvider);
+serviceProviderRouter.post("/", auth.protectedRoute, serviceProviderController.createServiceProvider);
 // Update a service Provider.
 serviceProviderRouter.put("/:id", auth.protectedRoute, serviceProviderController.updateServiceProvider);
 // Delete a service Provider.
