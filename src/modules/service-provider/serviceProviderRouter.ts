@@ -19,6 +19,6 @@ serviceProviderRouter.put("/:id", auth.protectedRoute, serviceProviderController
 serviceProviderRouter.delete("/:id", auth.protectedRoute, serviceProviderController.deleteServiceProvider);
 
 // GET details of a specific service Provider
-serviceProviderRouter.get("/:id", auth.protectedRoute, serviceProviderController.getServiceProvider);
+serviceProviderRouter.get("/:id", serviceProviderController.getServiceProvider);
 
 export { serviceProviderRouter };

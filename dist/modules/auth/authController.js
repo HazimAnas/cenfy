@@ -34,7 +34,8 @@ exports.login = (req, res, next) => __awaiter(this, void 0, void 0, function* ()
                 email: user.email,
                 userName: user.userName,
                 displayName: user.displayName,
-                address: user.address
+                address: user.address,
+                serviceProvider: user.serviceProvider
             };
             // Sign the JWT token and populate the payload with the user email and id
             const token = jwt.sign({ user: data }, "top_secret");

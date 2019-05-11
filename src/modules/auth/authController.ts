@@ -19,7 +19,8 @@ export let login = async (req: Request, res: Response, next: NextFunction) => {
           email : user.email,
           userName : user.userName,
           displayName : user.displayName,
-          address : user.address
+          address : user.address,
+          serviceProvider: user.serviceProvider
         };
             // Sign the JWT token and populate the payload with the user email and id
       const token = jwt.sign({ user : data }, "top_secret");
