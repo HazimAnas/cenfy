@@ -26,21 +26,23 @@ exports.login = (req, res, next) => __awaiter(this, void 0, void 0, function* ()
             // If the passwords match, it returns a value of true.
             const validate = yield user.isValidPassword(req.body.password);
             if (!validate) {
-                res.status(500).json({ status: 500, message: "Wrong password" });
+                res.status(401).json({ status: 401, message: "Wrong password" });
             }
-            // Send the user information to the next middleware
-            const data = {
-                _id: user._id,
-                email: user.email,
-                userName: user.userName,
-                displayName: user.displayName,
-                address: user.address,
-                serviceProvider: user.serviceProvider
-            };
-            // Sign the JWT token and populate the payload with the user email and id
-            const token = jwt.sign({ user: data }, "top_secret");
-            // Send back the token to the user
-            res.json({ data, token });
+            else {
+                // Send the user information to the next middleware
+                const data = {
+                    _id: user._id,
+                    email: user.email,
+                    userName: user.userName,
+                    displayName: user.displayName,
+                    address: user.address,
+                    serviceProvider: user.serviceProvider
+                };
+                // Sign the JWT token and populate the payload with the user email and id
+                const token = jwt.sign({ user: data }, "top_secret");
+                // Send back the token to the user
+                res.json({ data, token });
+            }
         }
         else {
             // If the user isn't found in the database, return a message
