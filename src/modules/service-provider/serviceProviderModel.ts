@@ -14,7 +14,12 @@ const ServiceProviderSchema = new  mongoose.Schema (
     categories: [{ name: {type: String }, _id : false }],
     images: [{ loc: { type: String }, _id : false }],
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    status: { type: Boolean, default: false, required: true }
+    status: { type: Boolean, default: false, required: true },
+    dateCreated: { type: Date },
+    rank: { type: Number },
+    statistics: [{ name: { type: Number } }],
+    customers: [{userName: { type: String } }],
+    ads: [{id: { type: String } }]
   }
 );
 

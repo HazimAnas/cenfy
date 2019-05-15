@@ -28,7 +28,9 @@ const UserSchema = new mongoose.Schema({
     displayName: { type: String, required: true, max: 50 },
     address: { type: String, max: 150 },
     phoneNumber: { type: String, max: 20 },
-    serviceProvider: { type: mongoose.Schema.Types.ObjectId, ref: "ServiceProvider" }
+    serviceProvider: { type: mongoose.Schema.Types.ObjectId, ref: "ServiceProvider" },
+    dateCreated: { type: Date },
+    loggedIn: { type: Boolean }
 });
 // We'll use this later on to make sure that the user trying to log in has the correct credentials
 UserSchema.methods.isValidPassword = function (password) {

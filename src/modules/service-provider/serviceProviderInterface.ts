@@ -5,6 +5,7 @@ interface IServiceProvider {
   images: [{loc: string}];
   user: string;
   status: boolean;
+  dateCreated: Date;
   rank: number;
   statistics: [{name: number}];
   customers: [{userName: string}];

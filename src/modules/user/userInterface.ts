@@ -6,7 +6,8 @@ interface IUser {
   address: string;
   phoneNumber: string;
   serviceProvider: string;
-
+  dateCreated: Date;
+  loggedIn: boolean;
   isValidPassword(password: string): boolean;
 }
 
