@@ -41,7 +41,7 @@ exports.login = (req, res, next) => __awaiter(this, void 0, void 0, function* ()
                 // Sign the JWT token and populate the payload with the user email and id
                 const token = jwt.sign({ user: data }, "top_secret");
                 // Send back the token to the user
-                res.json({ data, token });
+                res.status(200).json({ data, token });
             }
         }
         else {

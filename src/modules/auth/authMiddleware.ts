@@ -26,12 +26,12 @@ export let protectedRoute = (req: Request, res: Response, next: NextFunction) =>
           }
           // no user indicate authenticate failed, return error json to client
           if (!user) {
-            return res.status(500).json({status: 500, message: "Authentication failed"});
+            return res.status(401).json({status: 401, message: "Authentication failed"});
           }
           if (req.params.id) {
             // if user id in url is different from in jwt indicate client try to access data not belonging to the user, send error json to client.
             if (user._id != req.params.id) {
-              return res.status(500).json({status: 401, message: "Unauthorized"});
+              return res.status(401).json({status: 401, message: "Unauthorized"});
             }
           }
           req.user = user;

@@ -31,7 +31,7 @@ app.use("/users", routers.userRouter);
 app.use("/sp", routers.serviceProviderRouter);
 app.use((error, req, res, next) => {
     // top level error handler
-    res.json({ message: error.message });
+    res.status(500).json({ message: error.message });
 });
 // Start server
 app.listen(conf.port, () => console.log(`Example app listening on port ${conf.port}! with ENV ${app.settings.env}!`));

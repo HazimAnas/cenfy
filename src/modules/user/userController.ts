@@ -62,7 +62,7 @@ function responseHandling(data: any, res: Response) {
         delete data.password;
       }
       JSON.stringify(data);
-      res.json({status: 200, message: "Successful", data});
+      res.status(200).json({status: 200, message: "Successful", data});
     } else {
       res.status(500).json({status: 500, message: "Unsuccessful", data});
     }

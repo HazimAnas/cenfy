@@ -24,7 +24,7 @@ app.use("/sp", routers.serviceProviderRouter);
 
 app.use((error: Error , req: Request, res: Response, next: NextFunction) => {
   // top level error handler
-  res.json({ message: error.message });
+  res.status(500).json({ message: error.message });
 });
 
 // Start server

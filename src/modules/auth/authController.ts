@@ -25,7 +25,7 @@ export let login = async (req: Request, res: Response, next: NextFunction) => {
               // Sign the JWT token and populate the payload with the user email and id
         const token = jwt.sign({ user : data }, "top_secret");
               // Send back the token to the user
-        res.json({ data, token });
+        res.status(200).json({ data, token });
       }
     } else {
       // If the user isn't found in the database, return a message
