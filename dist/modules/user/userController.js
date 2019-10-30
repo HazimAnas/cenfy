@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -18,7 +19,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt = __importStar(require("bcrypt"));
 const userModel_1 = require("./userModel");
 // Display list of all User.
-exports.getUsers = (_req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.getUsers = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const usersList = yield userModel_1.User.find({}, "email username displayName").exec();
         responseHandling(usersList, res);
@@ -28,7 +29,7 @@ exports.getUsers = (_req, res, next) => __awaiter(this, void 0, void 0, function
     }
 });
 // Create a new User.
-exports.createUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.createUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const hashedPassword = yield bcrypt.hash(req.body.password, 10);
         req.body.password = hashedPassword;
@@ -41,7 +42,7 @@ exports.createUser = (req, res, next) => __awaiter(this, void 0, void 0, functio
     }
 });
 // Update a User.
-exports.updateUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.updateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield userModel_1.User.findByIdAndUpdate(req.params.id, req.body).exec();
         responseHandling(user, res);
@@ -51,7 +52,7 @@ exports.updateUser = (req, res, next) => __awaiter(this, void 0, void 0, functio
     }
 });
 // Delete a User.
-exports.deleteUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.deleteUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield userModel_1.User.findByIdAndDelete(req.params.id).exec();
         responseHandling(user, res);
@@ -61,7 +62,7 @@ exports.deleteUser = (req, res, next) => __awaiter(this, void 0, void 0, functio
     }
 });
 // Display detail page for a specific User.
-exports.getUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.getUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield userModel_1.User.findById(req.params.id).exec();
         responseHandling(user, res);

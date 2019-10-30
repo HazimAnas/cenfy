@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -12,7 +13,7 @@ const userModel_1 = require("../user/userModel");
 // import * as mongoose from "mongoose";
 const serviceProviderModel_1 = require("./serviceProviderModel");
 // Display list of all Service Provider.
-exports.getServiceProviders = (_req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.getServiceProviders = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const serviceProviderList = yield serviceProviderModel_1.ServiceProvider.find({}, "").exec();
         responseHandling(serviceProviderList, res);
@@ -22,7 +23,7 @@ exports.getServiceProviders = (_req, res, next) => __awaiter(this, void 0, void 
     }
 });
 // Create a new Service Provider.
-exports.createServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.createServiceProvider = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // req.body.user = new mongoose.Schema.Types.ObjectId(req.body.user);
         const serviceProvider = new serviceProviderModel_1.ServiceProvider(req.body);
@@ -37,7 +38,7 @@ exports.createServiceProvider = (req, res, next) => __awaiter(this, void 0, void
     }
 });
 // Update a Service Provider.
-exports.updateServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.updateServiceProvider = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findByIdAndUpdate(req.params.id, req.body).exec();
         responseHandling(serviceProvider, res);
@@ -47,7 +48,7 @@ exports.updateServiceProvider = (req, res, next) => __awaiter(this, void 0, void
     }
 });
 // Delete a Service Provider.
-exports.deleteServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.deleteServiceProvider = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findByIdAndDelete(req.params.id).exec();
         responseHandling(serviceProvider, res);
@@ -57,7 +58,7 @@ exports.deleteServiceProvider = (req, res, next) => __awaiter(this, void 0, void
     }
 });
 // Display detail page for a specific Service Provider.
-exports.getServiceProvider = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+exports.getServiceProvider = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findById(req.params.id).exec();
         responseHandling(serviceProvider, res);
