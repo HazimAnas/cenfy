@@ -1,6 +1,5 @@
 import * as mongoose from "mongoose";
 import { IServiceProvider } from "./serviceProviderInterface";
-
 export interface IServiceProviderModel extends IServiceProvider, mongoose.Document { }
 
 /**
@@ -15,10 +14,10 @@ const ServiceProviderSchema = new  mongoose.Schema (
     images: [{ loc: { type: String }, _id : false }],
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     status: { type: Boolean, default: false, required: true },
-    dateCreated: { type: Date },
+    dateCreated: { type: Date, default: Date.now },
     rank: { type: Number },
-    statistics: [{ name: { type: Number } }],
-    customers: [{userName: { type: String } }],
+    statistics: { view: { type: Number }, contact: { type: Number } },
+    customers: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: "User" } }],
     ads: [{id: { type: String } }]
   }
 );
@@ -31,6 +30,5 @@ ServiceProviderSchema.virtual("url")
 .get( function(this: any ) {
   return "/sp/" + this._id;
 });
-
 // Export model
 export const ServiceProvider = mongoose.model<IServiceProviderModel>("ServiceProvider", ServiceProviderSchema);

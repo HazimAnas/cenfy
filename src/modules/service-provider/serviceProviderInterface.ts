@@ -7,8 +7,10 @@ interface IServiceProvider {
   status: boolean;
   dateCreated: Date;
   rank: number;
-  statistics: [{name: number}];
-  customers: [{userName: string}];
+  statistics: {
+    view: number,
+    contact: number};
+  customers: [{user: string}];
   ads: [{id: string}];
 }
 

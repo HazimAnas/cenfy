@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema({
     address: { type: String, max: 150 },
     phoneNumber: { type: String, max: 20 },
     serviceProvider: { type: mongoose.Schema.Types.ObjectId, ref: "ServiceProvider" },
-    dateCreated: { type: Date },
+    dateCreated: { type: Date, default: Date.now },
     loggedIn: { type: Boolean }
 });
 // We'll use this later on to make sure that the user trying to log in has the correct credentials
