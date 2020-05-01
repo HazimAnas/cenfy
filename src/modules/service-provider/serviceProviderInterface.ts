@@ -1,7 +1,7 @@
 interface IServiceProvider {
   displayName: string;
   description: string;
-  category: string[];
+  category: [{name: string}];
   images: [{loc: string}];
   user: string;
   status: boolean;
