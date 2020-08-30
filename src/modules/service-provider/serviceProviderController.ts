@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { elasticClient } from "../../utils/elastic";
 import { User } from "../user/userModel";
 // import * as mongoose from "mongoose";
 import { ServiceProvider } from "./serviceProviderModel";
@@ -22,6 +23,20 @@ export let createServiceProvider = async (req: Request, res: Response, next: Nex
         const user = await User.findById(req.body.user).exec();
         user!.serviceProvider = createdserviceProvider._id;
         await user!.save();
+        const indexserviceProvider = {
+          index: "sp",
+          id: createdserviceProvider._id,
+          type: "_doc",
+          body: {
+            displayName: createdserviceProvider.displayName,
+            categories: createdserviceProvider.categories,
+            status: createdserviceProvider.status,
+            dateCreated: createdserviceProvider.status,
+            statistics: createdserviceProvider.statistics,
+            customers: createdserviceProvider.customers
+          }
+        };
+        elasticClient.index(indexserviceProvider);
         responseHandling(createdserviceProvider, res);
     } catch (err) {
       return next(err);

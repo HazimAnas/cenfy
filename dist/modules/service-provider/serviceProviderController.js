@@ -9,6 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getServiceProvider = exports.deleteServiceProvider = exports.updateServiceProvider = exports.createServiceProvider = exports.getServiceProviders = void 0;
+const elastic_1 = require("../../utils/elastic");
 const userModel_1 = require("../user/userModel");
 // import * as mongoose from "mongoose";
 const serviceProviderModel_1 = require("./serviceProviderModel");
@@ -31,6 +33,20 @@ exports.createServiceProvider = (req, res, next) => __awaiter(void 0, void 0, vo
         const user = yield userModel_1.User.findById(req.body.user).exec();
         user.serviceProvider = createdserviceProvider._id;
         yield user.save();
+        const indexserviceProvider = {
+            index: "sp",
+            id: createdserviceProvider._id,
+            type: "_doc",
+            body: {
+                displayName: createdserviceProvider.displayName,
+                categories: createdserviceProvider.categories,
+                status: createdserviceProvider.status,
+                dateCreated: createdserviceProvider.status,
+                statistics: createdserviceProvider.statistics,
+                customers: createdserviceProvider.customers
+            }
+        };
+        elastic_1.elasticClient.index(indexserviceProvider);
         responseHandling(createdserviceProvider, res);
     }
     catch (err) {

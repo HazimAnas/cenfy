@@ -17,7 +17,7 @@ const ServiceProviderSchema = new  mongoose.Schema (
     dateCreated: { type: Date, default: Date.now },
     rank: { type: Number },
     statistics: { view: { type: Number }, contact: { type: Number } },
-    customers: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: "User" } }],
+    customers: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: "5c5a8ee8fe800304b866511e" } }],
     ads: [{id: { type: String } }]
   }
 );

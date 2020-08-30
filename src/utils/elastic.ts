@@ -1,3 +1,3 @@
-import { Client } from "elasticsearch";
+import { Client } from "@elastic/elasticsearch";
 
-const elasticClient = new Client({ host: 'http://localhost:9200' });
+export const elasticClient = new Client({ node: "http://localhost:9200" });

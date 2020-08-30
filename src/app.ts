@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Initialize db connection
+import "./utils/elastic";
 import "./utils/mongodb";
 
 // Attach all module routers
