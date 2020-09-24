@@ -7,6 +7,16 @@ import { ServiceProvider } from "./serviceProviderModel";
 // Display list of all Service Provider.
 export let getServiceProviders = async (_req: Request, res: Response, next: NextFunction) => {
     try {
+      const response = await elasticClient.search({
+        index: "sp",
+        body: {
+        query: {
+          match: { status: false }
+          }
+        }
+      });
+      console.log(JSON.stringify(response.body));
+      console.log(response);
       const serviceProviderList = await ServiceProvider.find({}, "").exec();
       responseHandling(serviceProviderList, res);
     } catch (err) {

@@ -17,6 +17,16 @@ const serviceProviderModel_1 = require("./serviceProviderModel");
 // Display list of all Service Provider.
 exports.getServiceProviders = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const response = yield elastic_1.elasticClient.search({
+            index: "sp",
+            body: {
+                query: {
+                    match: { status: false }
+                }
+            }
+        });
+        console.log(JSON.stringify(response.body));
+        console.log(response);
         const serviceProviderList = yield serviceProviderModel_1.ServiceProvider.find({}, "").exec();
         responseHandling(serviceProviderList, res);
     }
