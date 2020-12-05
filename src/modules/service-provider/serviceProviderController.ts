@@ -55,10 +55,13 @@ export let createServiceProvider = async (req: Request, res: Response, next: Nex
 
 // Update a Service Provider.
 export let updateServiceProvider = async (req: Request, res: Response, next: NextFunction) => {
+    console.log("here");
     try {
       const serviceProvider = await ServiceProvider.findByIdAndUpdate(req.params.id, req.body).exec();
       responseHandling(serviceProvider, res);
+      console.log(res);
     } catch (err) {
+      console.log(err);
       return next(err);
     }
 };

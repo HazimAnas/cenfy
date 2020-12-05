@@ -65,11 +65,14 @@ exports.createServiceProvider = (req, res, next) => __awaiter(void 0, void 0, vo
 });
 // Update a Service Provider.
 exports.updateServiceProvider = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("here");
     try {
         const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findByIdAndUpdate(req.params.id, req.body).exec();
         responseHandling(serviceProvider, res);
+        console.log(res);
     }
     catch (err) {
+        console.log(err);
         return next(err);
     }
 });

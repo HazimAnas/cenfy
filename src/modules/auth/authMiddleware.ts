@@ -4,10 +4,10 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 
 // This verifies that the token sent by the user is valid
 passport.use( new Strategy ({
-  // secret we used to sign our JWT
-  secretOrKey : "top_secret",
   // we expect the user to send the token as a query paramater with the name 'secret_token'
-  jwtFromRequest : ExtractJwt.fromAuthHeaderWithScheme("Bearer")
+  jwtFromRequest : ExtractJwt.fromAuthHeaderWithScheme("Bearer"),
+  // secret we used to sign our JWT
+  secretOrKey : "top_secret"
 }, async (token, done) => {
   try {
     // Pass the user details to the next middleware
@@ -19,7 +19,7 @@ passport.use( new Strategy ({
 // middleware for custom callback of passport.authenticate
 export let protectedRoute = (req: Request, res: Response, next: NextFunction) => {
       try {
-        passport.authenticate("jwt", { session: false }, function(err, user, info) {
+        passport.authenticate("jwt", { session: false }, (err, user, info) => {
           // if error, terminate and pass error to express
           if (err) {
             return next(err);
@@ -30,8 +30,8 @@ export let protectedRoute = (req: Request, res: Response, next: NextFunction) =>
           }
           if (req.params.id) {
             // if user id in url is different from in jwt indicate client try to access data not belonging to the user, send error json to client.
-            if (user._id != req.params.id) {
-              return res.status(401).json({status: 401, message: "Unauthorized"});
+            if (user._id !== req.params.id && user.serviceProvider !== req.params.id) {
+              return res.status(401).json({status: 401, message: "Unauthorized" + " :user: " + user.serviceProvider + " :sp: " + req.params.id});
             }
           }
           req.user = user;
