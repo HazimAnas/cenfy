@@ -58,6 +58,20 @@ export let updateServiceProvider = async (req: Request, res: Response, next: Nex
     console.log("here");
     try {
       const serviceProvider = await ServiceProvider.findByIdAndUpdate(req.params.id, req.body).exec();
+      const indexserviceProvider = {
+        index: "sp",
+        id: serviceProvider!._id,
+        type: "_doc",
+        body: {
+          displayName: serviceProvider!.displayName,
+          categories: serviceProvider!.categories,
+          status: serviceProvider!.status,
+          dateCreated: serviceProvider!.status,
+          statistics: serviceProvider!.statistics,
+          customers: serviceProvider!.customers
+        }
+      };
+      elasticClient.update(indexserviceProvider);
       responseHandling(serviceProvider, res);
       console.log(res);
     } catch (err) {
@@ -81,6 +95,25 @@ export let getServiceProvider = async (req: Request, res: Response, next: NextFu
     try {
       const serviceProvider = await ServiceProvider.findById(req.params.id).exec();
       responseHandling(serviceProvider, res);
+    } catch (err) {
+      return next(err);
+    }
+};
+
+// Display detail page for a specific Service Provider.
+export let searchServiceProvider = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const response = await elasticClient.search({
+        index: "sp",
+        body: {
+        query: {
+          match: { displayName: req.params.search }
+          }
+        }
+      });
+      console.log(JSON.stringify(response.body));
+      console.log(response);
+      responseHandling(response, res);
     } catch (err) {
       return next(err);
     }

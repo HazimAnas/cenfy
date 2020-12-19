@@ -36,4 +36,6 @@ serviceProviderRouter.put("/:id", auth.protectedRoute, serviceProviderController
 serviceProviderRouter.delete("/:id", auth.protectedRoute, serviceProviderController.deleteServiceProvider);
 // GET details of a specific service Provider
 serviceProviderRouter.get("/:id", serviceProviderController.getServiceProvider);
+// GET details of a specific service Provider
+serviceProviderRouter.get("/browse/:search", serviceProviderController.searchServiceProvider);
 //# sourceMappingURL=serviceProviderRouter.js.map

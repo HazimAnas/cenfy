@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getServiceProvider = exports.deleteServiceProvider = exports.updateServiceProvider = exports.createServiceProvider = exports.getServiceProviders = void 0;
+exports.searchServiceProvider = exports.getServiceProvider = exports.deleteServiceProvider = exports.updateServiceProvider = exports.createServiceProvider = exports.getServiceProviders = void 0;
 const elastic_1 = require("../../utils/elastic");
 const userModel_1 = require("../user/userModel");
 // import * as mongoose from "mongoose";
@@ -68,6 +68,20 @@ exports.updateServiceProvider = (req, res, next) => __awaiter(void 0, void 0, vo
     console.log("here");
     try {
         const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findByIdAndUpdate(req.params.id, req.body).exec();
+        const indexserviceProvider = {
+            index: "sp",
+            id: serviceProvider._id,
+            type: "_doc",
+            body: {
+                displayName: serviceProvider.displayName,
+                categories: serviceProvider.categories,
+                status: serviceProvider.status,
+                dateCreated: serviceProvider.status,
+                statistics: serviceProvider.statistics,
+                customers: serviceProvider.customers
+            }
+        };
+        elastic_1.elasticClient.update(indexserviceProvider);
         responseHandling(serviceProvider, res);
         console.log(res);
     }
@@ -91,6 +105,25 @@ exports.getServiceProvider = (req, res, next) => __awaiter(void 0, void 0, void 
     try {
         const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findById(req.params.id).exec();
         responseHandling(serviceProvider, res);
+    }
+    catch (err) {
+        return next(err);
+    }
+});
+// Display detail page for a specific Service Provider.
+exports.searchServiceProvider = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield elastic_1.elasticClient.search({
+            index: "sp",
+            body: {
+                query: {
+                    match: { displayName: req.params.search }
+                }
+            }
+        });
+        console.log(JSON.stringify(response.body));
+        console.log(response);
+        responseHandling(response, res);
     }
     catch (err) {
         return next(err);
