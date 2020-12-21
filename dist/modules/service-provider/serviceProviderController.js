@@ -50,12 +50,12 @@ exports.createServiceProvider = (req, res, next) => __awaiter(void 0, void 0, vo
                 displayName: createdserviceProvider.displayName,
                 categories: createdserviceProvider.categories,
                 status: createdserviceProvider.status,
-                dateCreated: createdserviceProvider.status,
+                dateCreated: createdserviceProvider.dateCreated,
                 statistics: createdserviceProvider.statistics,
                 customers: createdserviceProvider.customers
             }
         };
-        elastic_1.elasticClient.index(indexserviceProvider);
+        yield elastic_1.elasticClient.index(indexserviceProvider);
         responseHandling(createdserviceProvider, res);
     }
     catch (err) {
@@ -64,28 +64,25 @@ exports.createServiceProvider = (req, res, next) => __awaiter(void 0, void 0, vo
 });
 // Update a Service Provider.
 exports.updateServiceProvider = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("here");
     try {
         const serviceProvider = yield serviceProviderModel_1.ServiceProvider.findByIdAndUpdate(req.params.id, req.body).exec();
         const indexserviceProvider = {
             index: "sp",
             id: serviceProvider._id,
-            type: "_doc",
-            body: {
-                displayName: serviceProvider.displayName,
-                categories: serviceProvider.categories,
-                status: serviceProvider.status,
-                dateCreated: serviceProvider.status,
-                statistics: serviceProvider.statistics,
-                customers: serviceProvider.customers
+            body: { doc: {
+                    displayName: serviceProvider.displayName,
+                    categories: serviceProvider.categories,
+                    status: serviceProvider.status,
+                    dateCreated: serviceProvider.status,
+                    statistics: serviceProvider.statistics,
+                    customers: serviceProvider.customers
+                }
             }
         };
-        elastic_1.elasticClient.update(indexserviceProvider);
+        yield elastic_1.elasticClient.update(indexserviceProvider);
         responseHandling(serviceProvider, res);
-        console.log(res);
     }
     catch (err) {
-        console.log(err);
         return next(err);
     }
 });
@@ -116,7 +113,20 @@ exports.searchServiceProvider = (req, res, next) => __awaiter(void 0, void 0, vo
             index: "sp",
             body: {
                 query: {
-                    match: { displayName: req.params.search }
+                    bool: {
+                        should: [
+                            {
+                                match: {
+                                    displayName: req.params.search,
+                                }
+                            },
+                            {
+                                match: {
+                                    "categories.name": req.params.search,
+                                }
+                            }
+                        ]
+                    }
                 }
             }
         });

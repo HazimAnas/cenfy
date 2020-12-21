@@ -40,12 +40,12 @@ export let createServiceProvider = async (req: Request, res: Response, next: Nex
             displayName: createdserviceProvider.displayName,
             categories: createdserviceProvider.categories,
             status: createdserviceProvider.status,
-            dateCreated: createdserviceProvider.status,
+            dateCreated: createdserviceProvider.dateCreated,
             statistics: createdserviceProvider.statistics,
             customers: createdserviceProvider.customers
           }
         };
-        elasticClient.index(indexserviceProvider);
+        await elasticClient.index(indexserviceProvider);
         responseHandling(createdserviceProvider, res);
     } catch (err) {
       return next(err);
@@ -54,27 +54,25 @@ export let createServiceProvider = async (req: Request, res: Response, next: Nex
 
 // Update a Service Provider.
 export let updateServiceProvider = async (req: Request, res: Response, next: NextFunction) => {
-    console.log("here");
     try {
       const serviceProvider = await ServiceProvider.findByIdAndUpdate(req.params.id, req.body).exec();
       const indexserviceProvider = {
         index: "sp",
         id: serviceProvider!._id,
-        type: "_doc",
-        body: {
-          displayName: serviceProvider!.displayName,
-          categories: serviceProvider!.categories,
-          status: serviceProvider!.status,
-          dateCreated: serviceProvider!.status,
-          statistics: serviceProvider!.statistics,
-          customers: serviceProvider!.customers
+        body: {doc:
+          {
+            displayName: serviceProvider!.displayName,
+            categories: serviceProvider!.categories,
+            status: serviceProvider!.status,
+            dateCreated: serviceProvider!.status,
+            statistics: serviceProvider!.statistics,
+            customers: serviceProvider!.customers
+          }
         }
       };
-      elasticClient.update(indexserviceProvider);
+      await elasticClient.update(indexserviceProvider);
       responseHandling(serviceProvider, res);
-      console.log(res);
     } catch (err) {
-      console.log(err);
       return next(err);
     }
 };
@@ -102,15 +100,27 @@ export let getServiceProvider = async (req: Request, res: Response, next: NextFu
 // Display detail page for a specific Service Provider.
 export let searchServiceProvider = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const response = await elasticClient.search({
+        const response = await elasticClient.search({
         index: "sp",
         body: {
         query: {
-          match: { displayName: req.params.search }
+          bool: {
+            should: [
+              {
+                match: {
+                  displayName: req.params.search,
+                }
+              },
+              {
+                match: {
+                "categories.name": req.params.search,
+                }
+              }
+            ]}
           }
         }
       });
-      responseHandling(response, res);
+        responseHandling(response, res);
     } catch (err) {
       return next(err);
     }
