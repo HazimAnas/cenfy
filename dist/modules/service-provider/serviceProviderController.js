@@ -25,7 +25,6 @@ exports.getServiceProviders = (_req, res, next) => __awaiter(void 0, void 0, voi
                 }
             }
         });
-        console.log(JSON.stringify(response.body));
         console.log(response);
         const serviceProviderList = yield serviceProviderModel_1.ServiceProvider.find({}, "").exec();
         responseHandling(serviceProviderList, res);
@@ -121,8 +120,6 @@ exports.searchServiceProvider = (req, res, next) => __awaiter(void 0, void 0, vo
                 }
             }
         });
-        console.log(JSON.stringify(response.body));
-        console.log(response);
         responseHandling(response, res);
     }
     catch (err) {

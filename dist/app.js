@@ -34,6 +34,12 @@ app.use(cors_1.default({ credentials: true }));
 app.use(passport_1.default.initialize());
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
+// headers and content type
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 // Initialize db connection
 require("./utils/elastic");
 require("./utils/mongodb");

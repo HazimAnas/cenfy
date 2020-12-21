@@ -1,7 +1,9 @@
 import { Router } from "express";
+import multer from "multer";
 import * as auth from "../auth/authMiddleware";
 
 const serviceProviderRouter = Router();
+const upload = multer({ dest: "./public/data/uploads/" });
 
 // Require controller modules.
 import * as serviceProviderController from "./serviceProviderController";
@@ -21,7 +23,26 @@ serviceProviderRouter.delete("/:id", auth.protectedRoute, serviceProviderControl
 // GET details of a specific service Provider
 serviceProviderRouter.get("/:id", serviceProviderController.getServiceProvider);
 
-// GET details of a specific service Provider
+// GET service Providers matching search queries
 serviceProviderRouter.get("/browse/:search", serviceProviderController.searchServiceProvider);
+
+// POST service Providers image uploads
+serviceProviderRouter.post("/uploadImage", upload.single("upload"), function(req, res) {
+   // req.file is the name of your file in the form above, here 'uploaded_file'
+   // req.body will hold the text fields, if there were any
+   console.log("here");
+   if (!req.file) {
+    console.log("No file is available!");
+    return res.send({
+      success: false
+    });
+
+  } else {
+    console.log("File is available!");
+    return res.send({
+      success: true
+    });
+  }
+});
 
 export { serviceProviderRouter };

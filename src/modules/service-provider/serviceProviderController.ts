@@ -15,7 +15,6 @@ export let getServiceProviders = async (_req: Request, res: Response, next: Next
           }
         }
       });
-      console.log(JSON.stringify(response.body));
       console.log(response);
       const serviceProviderList = await ServiceProvider.find({}, "").exec();
       responseHandling(serviceProviderList, res);
@@ -111,13 +110,12 @@ export let searchServiceProvider = async (req: Request, res: Response, next: Nex
           }
         }
       });
-      console.log(JSON.stringify(response.body));
-      console.log(response);
       responseHandling(response, res);
     } catch (err) {
       return next(err);
     }
 };
+
 // wip
 function responseHandling(data: any, res: Response) {
   if (data != null) {
