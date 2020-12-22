@@ -14,7 +14,7 @@ const UserSchema = new  mongoose.Schema (
     password: { type: String, required: true, max: 50, select: false },
     email: { type: String, required: true, max: 50 },
     displayName: { type: String, required: true, max: 50 },
-    address: { type: String, max: 150 },
+    address: { line1: { type: String, max: 150 }, line2: { type: String, max: 150 }, state: { type: String, max: 150 }, postcode: { type: String, max: 150 }, lat: { type: String }, long: { type: String }},
     phoneNumber: { type: String, max: 20 },
     serviceProvider: { type: mongoose.Schema.Types.ObjectId, ref: "ServiceProvider" },
     dateCreated: { type: Date, default: Date.now },

@@ -26,8 +26,8 @@ exports.getServiceProviders = (_req, res, next) => __awaiter(void 0, void 0, voi
             }
         });
         console.log(response);
-        const serviceProviderList = yield serviceProviderModel_1.ServiceProvider.find({}, "").exec();
-        responseHandling(serviceProviderList, res);
+        // const serviceProviderList = await ServiceProvider.find({}, "").exec();
+        responseHandling(response, res);
     }
     catch (err) {
         return next(err);
@@ -49,10 +49,12 @@ exports.createServiceProvider = (req, res, next) => __awaiter(void 0, void 0, vo
             body: {
                 displayName: createdserviceProvider.displayName,
                 categories: createdserviceProvider.categories,
+                address: createdserviceProvider.address,
                 status: createdserviceProvider.status,
                 dateCreated: createdserviceProvider.dateCreated,
                 statistics: createdserviceProvider.statistics,
-                customers: createdserviceProvider.customers
+                customers: createdserviceProvider.customers,
+                followers: createdserviceProvider.followers
             }
         };
         yield elastic_1.elasticClient.index(indexserviceProvider);
@@ -72,6 +74,7 @@ exports.updateServiceProvider = (req, res, next) => __awaiter(void 0, void 0, vo
             body: { doc: {
                     displayName: serviceProvider.displayName,
                     categories: serviceProvider.categories,
+                    address: serviceProvider.address,
                     status: serviceProvider.status,
                     dateCreated: serviceProvider.status,
                     statistics: serviceProvider.statistics,
