@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import multer from "multer";
 import { elasticClient } from "../../utils/elastic";
 import { User } from "../user/userModel";
 // import * as mongoose from "mongoose";
@@ -11,11 +12,10 @@ export let getServiceProviders = async (_req: Request, res: Response, next: Next
         index: "sp",
         body: {
         query: {
-          match: { status: false }
+          match_all: {}
           }
         }
       });
-      console.log(response);
       // const serviceProviderList = await ServiceProvider.find({}, "").exec();
       responseHandling(response, res);
     } catch (err) {
@@ -61,8 +61,7 @@ export let updateServiceProvider = async (req: Request, res: Response, next: Nex
       const indexserviceProvider = {
         index: "sp",
         id: serviceProvider!._id,
-        body: {doc:
-          {
+        body: {
             displayName: serviceProvider!.displayName,
             categories: serviceProvider!.categories,
             address: serviceProvider!.address,
@@ -71,9 +70,8 @@ export let updateServiceProvider = async (req: Request, res: Response, next: Nex
             statistics: serviceProvider!.statistics,
             customers: serviceProvider!.customers
           }
-        }
       };
-      await elasticClient.update(indexserviceProvider);
+      await elasticClient.index(indexserviceProvider);
       responseHandling(serviceProvider, res);
     } catch (err) {
       return next(err);
@@ -129,6 +127,42 @@ export let searchServiceProvider = async (req: Request, res: Response, next: Nex
     }
 };
 
+export let uploadProfilePicture = async (req: Request, res: Response, next: NextFunction) => {
+  const
+    fs = require("fs"),
+    dirPath = "./public/data/uploads/" + req.params.id + "/";
+
+  // Create directory if directory does not exist.
+  fs.mkdir(dirPath, {recursive: true}, (err: any) => {
+    if (err) { console.log(`Error creating directory: ${err}`); }
+    // Directory now exists.
+  });
+
+  const storage = multer.diskStorage({
+      destination(req, file, cb) {
+          cb(null, "./public/data/uploads/" + req.params.id + "/");
+       },
+      filename(req, file, cb) {
+          cb(null , file.originalname);
+      }
+  });
+
+  const upload = multer({ storage}).any();
+
+  upload(req, res, function(err: any) {
+        if (err) {
+            console.log(err);
+            return res.end("Error uploading file.");
+        } else {
+           console.log(req.body);
+           // req.files.forEach( function(f) {
+             // console.log(f);
+             // and move file to final destination...
+           // });
+           res.end("File has been uploaded");
+        }
+    });
+};
 // wip
 function responseHandling(data: any, res: Response) {
   if (data != null) {

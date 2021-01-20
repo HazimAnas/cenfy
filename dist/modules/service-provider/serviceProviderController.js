@@ -8,8 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.searchServiceProvider = exports.getServiceProvider = exports.deleteServiceProvider = exports.updateServiceProvider = exports.createServiceProvider = exports.getServiceProviders = void 0;
+exports.uploadProfilePicture = exports.searchServiceProvider = exports.getServiceProvider = exports.deleteServiceProvider = exports.updateServiceProvider = exports.createServiceProvider = exports.getServiceProviders = void 0;
+const multer_1 = __importDefault(require("multer"));
 const elastic_1 = require("../../utils/elastic");
 const userModel_1 = require("../user/userModel");
 // import * as mongoose from "mongoose";
@@ -21,11 +25,10 @@ exports.getServiceProviders = (_req, res, next) => __awaiter(void 0, void 0, voi
             index: "sp",
             body: {
                 query: {
-                    match: { status: false }
+                    match_all: {}
                 }
             }
         });
-        console.log(response);
         // const serviceProviderList = await ServiceProvider.find({}, "").exec();
         responseHandling(response, res);
     }
@@ -71,18 +74,17 @@ exports.updateServiceProvider = (req, res, next) => __awaiter(void 0, void 0, vo
         const indexserviceProvider = {
             index: "sp",
             id: serviceProvider._id,
-            body: { doc: {
-                    displayName: serviceProvider.displayName,
-                    categories: serviceProvider.categories,
-                    address: serviceProvider.address,
-                    status: serviceProvider.status,
-                    dateCreated: serviceProvider.status,
-                    statistics: serviceProvider.statistics,
-                    customers: serviceProvider.customers
-                }
+            body: {
+                displayName: serviceProvider.displayName,
+                categories: serviceProvider.categories,
+                address: serviceProvider.address,
+                status: serviceProvider.status,
+                dateCreated: serviceProvider.status,
+                statistics: serviceProvider.statistics,
+                customers: serviceProvider.customers
             }
         };
-        yield elastic_1.elasticClient.update(indexserviceProvider);
+        yield elastic_1.elasticClient.index(indexserviceProvider);
         responseHandling(serviceProvider, res);
     }
     catch (err) {
@@ -138,6 +140,39 @@ exports.searchServiceProvider = (req, res, next) => __awaiter(void 0, void 0, vo
     catch (err) {
         return next(err);
     }
+});
+exports.uploadProfilePicture = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const fs = require("fs"), dirPath = "./public/data/uploads/" + req.params.id + "/";
+    // Create directory if directory does not exist.
+    fs.mkdir(dirPath, { recursive: true }, (err) => {
+        if (err) {
+            console.log(`Error creating directory: ${err}`);
+        }
+        // Directory now exists.
+    });
+    const storage = multer_1.default.diskStorage({
+        destination(req, file, cb) {
+            cb(null, "./public/data/uploads/" + req.params.id + "/");
+        },
+        filename(req, file, cb) {
+            cb(null, file.originalname);
+        }
+    });
+    const upload = multer_1.default({ storage }).any();
+    upload(req, res, function (err) {
+        if (err) {
+            console.log(err);
+            return res.end("Error uploading file.");
+        }
+        else {
+            console.log(req.body);
+            // req.files.forEach( function(f) {
+            // console.log(f);
+            // and move file to final destination...
+            // });
+            res.end("File has been uploaded");
+        }
+    });
 });
 // wip
 function responseHandling(data, res) {

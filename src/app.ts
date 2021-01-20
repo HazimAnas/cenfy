@@ -12,6 +12,7 @@ app.use(cors({credentials: true}));
 app.use(passport.initialize());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 // headers and content type
 app.use(function(req, res, next) {

@@ -34,6 +34,7 @@ app.use(cors_1.default({ credentials: true }));
 app.use(passport_1.default.initialize());
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(express_1.default.static("public"));
 // headers and content type
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
