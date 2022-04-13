@@ -43,7 +43,7 @@
     "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
-    "async": "^2.6.3",
+    "async": "^3.2.2",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "mocha": "^8.1.0",
